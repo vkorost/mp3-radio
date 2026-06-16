@@ -52,17 +52,20 @@ produce_radio_playlist.cmd sk-abc123def456 "C:\Music\HardRock" "D:\Playlist"
 
 ### Output
 
-All working files and final output go in the `past/` subdirectory:
+All output goes in the playlist folder you specify:
 
 ```
-past/
-  dj_intros.json          # sidecar JSON with all parsed data and intro texts
-  dj_intros_review.md     # human-readable review of all intros
-  tts/                    # rendered TTS intro MP3 files
-  playlist/               # final output — shuffled, numbered, ready to play
+PLAYLIST_FOLDER/
+  001_DJ-Intro - Saxon - Ride like the wind.mp3   <- DJ intro (moved from TTS)
+  002_Saxon - Ride like the wind.mp3              <- song (copied from source)
+  ...
+  past/                                           <- working files
+    dj_intros.json                                   sidecar JSON
+    dj_intros_review.md                              human-readable review
+    tts/                                             TTS staging (emptied after move)
 ```
 
-The `playlist/` folder contains numbered files that play in order on any device:
+The playlist folder contains numbered files that play in order on any device:
 
 ```
 001_DJ-Intro - Saxon - Ride like the wind.mp3
@@ -81,7 +84,8 @@ and re-run, it will:
 - **Skip** TTS rendering for intros that already have MP3s in `past/tts/`
 - **Generate** intros and TTS only for new tracks
 
-To force a full regeneration, delete the `past/` folder before running.
+To force a full regeneration, delete the `past/` subfolder inside your playlist
+folder before running.
 
 ## Security Note: Autonomous Mode
 
@@ -91,7 +95,7 @@ calling the ElevenLabs API) without asking for permission at each step.
 
 **What this means:**
 
-- Claude can read/write files in the project directory and `past/` folder
+- Claude can read/write files in the project directory and the output folder
 - Claude can execute Python scripts it writes
 - Claude can make HTTP calls to the ElevenLabs API using your key
 - No human approval is required for individual actions

@@ -13,11 +13,11 @@ folder is ready to copy to any music player.
 ```yaml
 INPUT_FOLDER: ""                                 # passed at runtime by produce_radio_playlist.cmd
 AUDIO_EXTENSIONS: [".mp3", ".m4a"]               # add .flac/.aac/.ogg if needed
-WORKING_DIR: "./past"                            # all intermediate files go here
-OUTPUT_REVIEW_MD: "./past/dj_intros_review.md"
-OUTPUT_SIDECAR_JSON: "./past/dj_intros.json"
-TTS_DIR: "./past/tts"                            # rendered intro MP3s
 PLAYLIST_FOLDER: ""                              # passed at runtime by produce_radio_playlist.cmd
+WORKING_DIR: "<PLAYLIST_FOLDER>/past"            # all intermediate files go here
+OUTPUT_REVIEW_MD: "<WORKING_DIR>/dj_intros_review.md"
+OUTPUT_SIDECAR_JSON: "<WORKING_DIR>/dj_intros.json"
+TTS_DIR: "<WORKING_DIR>/tts"                     # temporary; TTS files are moved to playlist
 
 COMEDIAN_POOL:                                   # seven comedian style skills
   - style-ricky-gervais
@@ -275,12 +275,13 @@ For each entry with a non-empty `intro_text`:
   - Endpoint: `POST https://api.elevenlabs.io/v1/text-to-speech/{voice_id}`
   - Headers: `xi-api-key`, `Content-Type: application/json`, `Accept: audio/mpeg`
   - Body: `text`, `model_id`, `voice_settings` (from config)
-- Save the result as an MP3 file in `TTS_DIR`.
+- Save the result as an MP3 file in `TTS_DIR` (temporary staging).
 - On HTTP 429 (rate limit), wait and retry up to 2 times with exponential backoff.
 - Log success/failure for each file.
 - Report total characters consumed (for quota tracking).
 - **Caching:** If a TTS MP3 already exists in `TTS_DIR` for a given track and the
   `intro_text` has not changed since the last render, skip re-rendering.
+- TTS files are staged here temporarily; Phase 8 will move them into the playlist.
 
 UNIDENTIFIED files produce no TTS output.
 
@@ -291,7 +292,8 @@ UNIDENTIFIED files produce no TTS output.
 - Create `PLAYLIST_FOLDER` (clean out any existing files).
 - Number files sequentially with 3-digit zero-padded prefixes (001, 002, ...).
 - For each entry in shuffled order:
-  - If it has a DJ intro: copy the TTS MP3 as `NNN_DJ-Intro - Artist - Title.mp3`
+  - If it has a DJ intro: move (not copy) the TTS MP3 from `TTS_DIR` to
+    `PLAYLIST_FOLDER` as `NNN_DJ-Intro - Artist - Title.mp3`
   - Immediately after: copy the original audio file as `NNN_originalfilename.ext`
   - Increment the counter by 2 (or by 1 if no intro).
 - Sanitize filenames: remove characters illegal on FAT32/exFAT (`< > : " / \ | ? *`).

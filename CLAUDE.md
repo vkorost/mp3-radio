@@ -13,16 +13,17 @@ Execute all phases in order.
 - **Audio source folder**: Provided in the prompt by `produce_radio_playlist.cmd`.
 - **Playlist output folder**: Provided in the prompt by `produce_radio_playlist.cmd`. This is the
   final destination for the shuffled playlist — can be any path the user chooses.
+- **Working directory**: `<PLAYLIST_FOLDER>/past/` — provided in the prompt.
+  All intermediate files (JSON, review markdown, TTS renders, scripts) go here.
 - **ElevenLabs API key**: Available as environment variable `ELEVENLABS_API_KEY`.
   Read it with `os.environ["ELEVENLABS_API_KEY"]` in Python scripts.
-- **Working directory**: `past/` (relative to this project root). All intermediate
-  files, scripts, JSON, and review markdown go here.
 
 ## Caching / Incremental Runs
-- If `past/dj_intros.json` exists from a prior run, load it. Preserve any entry
-  that already has a non-empty `intro_text`. Only generate intros for tracks that
-  are new (not in the JSON) or have an empty `intro_text`.
-- If a TTS MP3 already exists in `past/tts/` for a given track, skip re-rendering.
+- If the working directory already contains `dj_intros.json` from a prior run,
+  load it. Preserve any entry that already has a non-empty `intro_text`. Only
+  generate intros for tracks that are new or have an empty `intro_text`.
+- If a TTS MP3 already exists in the working directory for a given track, skip
+  re-rendering.
 - This allows re-running the pipeline after adding new songs to the audio folder
   without regenerating everything.
 
