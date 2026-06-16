@@ -13,7 +13,7 @@ Execute all phases in order.
 - **Audio source folder**: Provided in the prompt by `produce_radio_playlist.cmd`.
 - **Playlist output folder**: Provided in the prompt by `produce_radio_playlist.cmd`. This is the
   final destination for the shuffled playlist — can be any path the user chooses.
-- **Working directory**: `<PLAYLIST_FOLDER>/past/` — provided in the prompt.
+- **Working directory**: `<PLAYLIST_FOLDER>/text-data/` — provided in the prompt.
   All intermediate files (JSON, review markdown, TTS renders, scripts) go here.
 - **ElevenLabs API key**: Available as environment variable `ELEVENLABS_API_KEY`.
   Read it with `os.environ["ELEVENLABS_API_KEY"]` in Python scripts.

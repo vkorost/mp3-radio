@@ -14,7 +14,7 @@ folder is ready to copy to any music player.
 INPUT_FOLDER: ""                                 # passed at runtime by produce_radio_playlist.cmd
 AUDIO_EXTENSIONS: [".mp3", ".m4a"]               # add .flac/.aac/.ogg if needed
 PLAYLIST_FOLDER: ""                              # passed at runtime by produce_radio_playlist.cmd
-WORKING_DIR: "<PLAYLIST_FOLDER>/past"            # all intermediate files go here
+WORKING_DIR: "<PLAYLIST_FOLDER>/text-data"            # all intermediate files go here
 OUTPUT_REVIEW_MD: "<WORKING_DIR>/dj_intros_review.md"
 OUTPUT_SIDECAR_JSON: "<WORKING_DIR>/dj_intros.json"
 TTS_DIR: "<WORKING_DIR>/tts"                     # temporary; TTS files are moved to playlist

@@ -58,34 +58,34 @@ All output goes in the playlist folder you specify:
 PLAYLIST_FOLDER/
   001_DJ-Intro - Saxon - Ride like the wind.mp3   <- DJ intro (moved from TTS)
   002_Saxon - Ride like the wind.mp3              <- song (copied from source)
+  003_DJ-Intro - Lana Lane - Kashmir.mp3
+  004_Lana Lane - Kashmir.mp3
   ...
-  past/                                           <- working files
-    dj_intros.json                                   sidecar JSON
-    dj_intros_review.md                              human-readable review
-    tts/                                             TTS staging (emptied after move)
+  text-data/                                      <- working files (see below)
 ```
 
-The playlist folder contains numbered files that play in order on any device:
+### The `text-data/` folder
 
-```
-001_DJ-Intro - Saxon - Ride like the wind.mp3
-002_Saxon - Ride like the wind.mp3
-003_DJ-Intro - Lana Lane - Kashmir.mp3
-004_Lana Lane - Kashmir.mp3
-...
-```
+Inside your playlist folder, the pipeline creates a `text-data/` subdirectory
+that holds all intermediate working files:
 
-## Re-running / Adding Songs
+| File | Purpose |
+|---|---|
+| `dj_intros.json` | Sidecar JSON — parsed track data and generated intro texts. This is the source of truth for the pipeline. |
+| `dj_intros_review.md` | Human-readable review of all intros with flags and metadata. |
+| `tts/` | Staging area for rendered TTS MP3 files. Emptied after playlist assembly (files are moved, not copied). |
 
-The pipeline supports incremental runs. If you add new songs to your audio folder
-and re-run, it will:
+**This folder is safe to delete after the pipeline completes.** The final playlist
+files are self-contained in the parent folder. However, keeping `text-data/`
+enables two things:
 
-- **Keep** existing intros from `past/dj_intros.json`
-- **Skip** TTS rendering for intros that already have MP3s in `past/tts/`
-- **Generate** intros and TTS only for new tracks
+- **Incremental runs** — if you add new songs and re-run, existing intros and TTS
+  renders are reused from `text-data/`, saving time and ElevenLabs quota.
+- **Review** — you can inspect `dj_intros_review.md` to see all generated intros,
+  flags, and metadata before distributing the playlist.
 
-To force a full regeneration, delete the `past/` subfolder inside your playlist
-folder before running.
+To force a full regeneration from scratch, delete the `text-data/` folder before
+running.
 
 ## Security Note: Autonomous Mode
 
