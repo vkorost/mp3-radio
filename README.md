@@ -5,6 +5,10 @@ DJ intro for every track in a rotating cast of comedian voices, renders each int
 to speech, and assembles a shuffled, ordered folder you can copy to any music
 player. No streaming, no account on the device, no connection required at playback.
 
+**Hear a sample:** a short [demo of the generated station on YouTube](https://youtu.be/cTX4ftbuKHo),
+using the ElevenLabs voices. It is four DJ intros back to back. The video is audio
+only in spirit, so ignore whatever is on screen and just listen to how it sounds.
+
 ## Why This Exists
 
 I swim whenever I get the chance. Underwater I listen to a bone conduction player.
